@@ -1,0 +1,11 @@
+.header{
+    background: red;
+    padding: 1em;
+    font-size: 15px;
+    color:white;
+    margin: 0;
+}
+
+.header > ul{
+    list-style-type: none;
+}
