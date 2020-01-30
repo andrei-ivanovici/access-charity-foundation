@@ -8,7 +8,7 @@ import {LogIn} from "../authorization/login/LogIn";
 function useAuthorization() {
 
     return {
-        isAuthorized: false
+        isAuthorized: true
     }
 }
 
@@ -17,14 +17,17 @@ export function Root() {
 
     return <BrowserRouter>
         <Switch>
+            <Route path={"/login"}>
+                <GuardedRoute canNavigate={() => !isAuthorized}
+                              onSuccess={() => <LogIn/>}
+                              onFail={() => <Redirect to={"/"}/>}
+                />
+            </Route>
             <Route path={"/"}>
                 <GuardedRoute canNavigate={() => isAuthorized}
                               onSuccess={() => <App/>}
                               onFail={() => <Redirect to={"/login"}/>}
                 />
-            </Route>
-            <Route path={"/login"}>
-                <LogIn/>
             </Route>
         </Switch>
     </BrowserRouter>
