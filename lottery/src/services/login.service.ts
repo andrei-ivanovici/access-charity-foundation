@@ -3,7 +3,7 @@ import {Config, getAppConfig} from "../app.config";
 
 export interface User {
     name: string
-    email: string;
+    mail: string;
     avatar?: string;
 }
 

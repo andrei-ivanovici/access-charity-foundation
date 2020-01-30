@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LotteryApi.Data
 {
-    public class UserContext: DbContext
+    public class LotteryContext: DbContext
     {
         public DbSet<UserEntity> Users { get; set; }
-        
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
