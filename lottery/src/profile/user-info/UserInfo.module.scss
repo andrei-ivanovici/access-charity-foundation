@@ -1,6 +1,6 @@
 .root {
   width: 20em;
-  height: 40em;
+  height: calc(100vh - 7em);
   display: grid;
   grid-template-rows: 120px 1fr max-content;
   padding: 1em;
@@ -11,9 +11,12 @@
   display: flex;
   justify-content: center;
 }
-.formField{
+
+.formField {
   margin-bottom: 5px;
 }
-.footer {
 
+.footer {
+  display: flex;
+  justify-content: space-between;
 }

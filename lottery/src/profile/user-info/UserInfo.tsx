@@ -28,12 +28,21 @@ export function UserInfo({user}: UserDetailsProps) {
                 <TagEditField label={"Address Line"} value={user.address}/>
             </div>
         </div>
-        < div
-            className={footer}>
+        < div className={footer}>
             < TagButton
                 text={"Save"}
                 icon={"Save"}
-                color={"access"}
+                accent={"access"}
+                buttonIconStyle={
+                    {
+                        fill: "#FFF"
+                    }
+                }
+            />
+
+            < TagButton
+                text={"Reset"}
+                icon={"Save"}
                 buttonIconStyle={
                     {
                         fill: "#c3c3c3"
@@ -42,5 +51,5 @@ export function UserInfo({user}: UserDetailsProps) {
             />
         </div>
 
-    </div>
+    </div>;
 }
