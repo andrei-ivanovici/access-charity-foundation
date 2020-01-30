@@ -14,6 +14,9 @@ function useAuthorization() {
     const [activeUser, setActiveUse] = useState<User>();
 
     useEffect(() => {
+
+        const activeUser = loginService.tryRestorePayload() as any;
+        setActiveUse(activeUser);
         loginService.observeUserChange(setActiveUse)
     }, []);
 
