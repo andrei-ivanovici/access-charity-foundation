@@ -3,10 +3,11 @@ import './App.css';
 import {Header} from "./header/Header";
 import {Content} from "./content/Content";
 import {Footer} from "./footer/Footer";
+import {EventDetails} from "./event-details/EventDetails";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div>
         <Header/>
         <Content/>
         <Footer />
