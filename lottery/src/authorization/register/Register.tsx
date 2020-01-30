@@ -17,11 +17,11 @@ type RegisteredUser = User & {
 export function Register() {
     const [newUser, setNewUser] = useState<RegisteredUser>({
         confirmPassword: "",
-        email: "",
+        mail: "",
         name: "",
         password: "",
     });
-    const {password, name, email, confirmPassword} = newUser;
+    const {password, name, mail, confirmPassword} = newUser;
     return <div className={rootClass}>
         Register
         <div className={formClass}>
@@ -35,10 +35,10 @@ export function Register() {
             />
             <TagEditField
                 label='email'
-                value={email}
+                value={mail}
                 onValueChange={v => setNewUser({
                     ...newUser,
-                    email: v.detail.value
+                    mail: v.detail.value
                 })}
             />
 
