@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import {TagButton, TagEditField} from "@tag/tag-components-react-v2";
 import style from "./Register.module.scss"
-import {User} from "../../services/login.service";
+import {loginService, User} from "../../services/login.service";
+import {navigationService} from "../../services/navigation.service";
 
 const {
     root: rootClass,
@@ -13,7 +14,6 @@ type RegisteredUser = User & {
     confirmPassword: string;
 }
 
-
 export function Register() {
     const [newUser, setNewUser] = useState<RegisteredUser>({
         confirmPassword: "",
@@ -21,7 +21,7 @@ export function Register() {
         name: "",
         password: "",
     });
-    const {password, name, email, confirmPassword, avatar} = newUser;
+    const {password, name, email, confirmPassword} = newUser;
     return <div className={rootClass}>
         Register
         <div className={formClass}>
@@ -64,6 +64,7 @@ export function Register() {
     </div>
 }
 
-function doRegister(credentials: RegisteredUser) {
-
+async function doRegister(credentials: RegisteredUser) {
+    await loginService.register(credentials);
+    navigationService.go("/login");
 }
