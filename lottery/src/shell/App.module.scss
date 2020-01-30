@@ -1,0 +1,25 @@
+.root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 60px 1fr;
+  grid-template-areas: "header header" "nav content";
+}
+
+.header {
+  grid-area: header;
+}
+
+.nav {
+  grid-area: nav;
+}
+
+.content {
+  grid-area: content;
+}
+
+
