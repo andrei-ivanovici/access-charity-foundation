@@ -1,11 +1,13 @@
-import React from "react";
-import { BrowserRouter, Route, Redirect, Switch, Router } from "react-router-dom";
+import React, {useEffect, useMemo, useState} from "react";
+import {Redirect, Route, Router, Switch, BrowserRouter} from "react-router-dom";
 import { GuardedRoute } from "../components/GuardedRoute";
 import { App } from "../shell/App";
 import { LogIn } from "../authorization/login/LogIn";
 import { appHistory } from "../services/navigation.service";
 import { Register } from "../authorization/register/Register";
 import { Lottery, ICharity } from "../components/lottery/Lottery";
+import {loginService, User} from "../services/login.service";
+import TicketWizard from "../ticket/TicketWizard/TicketWizard";
 
 const charities: ICharity[] = [
     {
@@ -20,8 +22,17 @@ const charities: ICharity[] = [
 
 function useAuthorization() {
 
+    const [activeUser, setActiveUse] = useState<User>();
+
+    useEffect(() => {
+
+        const activeUser = loginService.tryRestorePayload() as any;
+        setActiveUse(activeUser);
+        loginService.observeUserChange(setActiveUse)
+    }, []);
+
     return {
-        isAuthorized: false
+        isAuthorized: !!activeUser,
     }
 }
 
@@ -40,11 +51,15 @@ export function Root() {
                         onFail={() => <Redirect to={"/"} />}
                     />
                 </Route>
+            <Route path={"/buy-ticket"}>
+                <TicketWizard/>
+            </Route>
                 <Route path={"/"}>
                     <GuardedRoute canNavigate={() => isAuthorized}
                         onSuccess={() => <App />}
                         onFail={() => <Redirect to={"/login"} />}
                     />
+
                 </Route>
             </Switch>
         </Router>
