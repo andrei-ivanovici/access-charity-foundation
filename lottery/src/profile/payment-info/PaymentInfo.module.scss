@@ -1,0 +1,7 @@
+.root {
+  height: 40em;
+  display: grid;
+  grid-template-rows: 120px 1fr max-content;
+  padding: 1em;
+  border: 1px solid #c7d5dc;
+}

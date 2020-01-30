@@ -4,6 +4,7 @@ import {Config, getAppConfig} from "../app.config";
 export interface User {
     name: string
     mail: string;
+    address?: string;
     avatar?: string;
 }
 
