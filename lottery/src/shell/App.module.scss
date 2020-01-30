@@ -1,0 +1,32 @@
+.root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  grid-template-columns: 60px 1fr;
+  grid-template-areas: "header header" "nav content";
+}
+
+.header {
+  grid-area: header;
+
+  .headerContent {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.nav {
+  grid-area: nav;
+}
+
+.content {
+  grid-area: content;
+}
+
+
