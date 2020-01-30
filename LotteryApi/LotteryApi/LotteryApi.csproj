@@ -13,4 +13,8 @@
       <None Remove=".gitignore" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="obj\Debug\netcoreapp3.0" />
+    </ItemGroup>
+
 </Project>
