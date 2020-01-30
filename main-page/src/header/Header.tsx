@@ -1,14 +1,9 @@
 import React from "react"
 import "./Header.css";
+import {TagTopNavbar} from "@tag/tag-components-react-v2";
 
 export function Header(){
     return(
-        <div className="header" >
-            <ul>
-                <li>About</li>
-                <li>Get Involved</li>
-                <li>Configuration</li>
-            </ul>
-        </div>
-    )
+        <TagTopNavbar name='Access Charity Foundation'/>
+    );
 }
