@@ -21,11 +21,12 @@ function useAuthorization() {
 
     return {
         isAuthorized: !!activeUser,
+        user: activeUser
     }
 }
 
 export function Root() {
-    const {isAuthorized} = useAuthorization();
+    const {isAuthorized, user} = useAuthorization();
 
     return <Router history={appHistory}>
         <Switch>
@@ -40,7 +41,7 @@ export function Root() {
             </Route>
             <Route path={"/"}>
                 <GuardedRoute canNavigate={() => isAuthorized}
-                              onSuccess={() => <App/>}
+                              onSuccess={() => <App user={user!}/>}
                               onFail={() => <Redirect to={"/login"}/>}
                 />
 

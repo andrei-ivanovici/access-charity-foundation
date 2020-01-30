@@ -12,6 +12,13 @@
 
 .header {
   grid-area: header;
+
+  .headerContent {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center;
+    width: 100%;
+  }
 }
 
 .nav {
