@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TagEditField, TagCombobox, TagList } from '@tag/tag-components-react-v2';
+import { TagEditField, TagCombobox, TagList, TagButton } from '@tag/tag-components-react-v2';
 
 import style from "./Lottery.module.scss";
 
@@ -11,7 +11,14 @@ export interface ICharity {
 }
 
 interface ILotteryProps {
-    charities: ICharity[]
+    charities: ICharity[];
+    submit: (state: ILotteryInfo) => void;
+}
+
+interface ILotteryInfo {
+    charities: ICharity[];
+    name: string;
+    price: number;
 }
 
 interface ILotteryState {
@@ -20,14 +27,28 @@ interface ILotteryState {
     price: number;
 }
 
-
+const demoCharities: ICharity[] = [
+    {
+        id: "1",
+        name: "Save the kittens"
+    },
+    {
+        id: "2",
+        name: "Hot meals on winter days"
+    },
+    {
+        id: "3",
+        name: "Nests for storks"
+    }
+];
 
 export function Lottery(props: ILotteryProps) {
     const [lotteryState, setLotteryState] = useState<ILotteryState>({ name: '', price: 10, selectedCharityIds: [] });
     const { name, price, selectedCharityIds } = lotteryState;
+    const charities = props.charities.length ? props.charities : demoCharities;
 
-    const availableCharities = props.charities.filter(c => !selectedCharityIds.includes(c.id));
-    const selectedCharities = props.charities.filter(c => selectedCharityIds.includes(c.id));
+    const availableCharities = charities.filter(c => !selectedCharityIds.includes(c.id));
+    const selectedCharities = charities.filter(c => selectedCharityIds.includes(c.id));
     const charitiesList = selectedCharities.map(c => <li key={c.id}>{c.name}</li>);
 
     return (
@@ -43,6 +64,7 @@ export function Lottery(props: ILotteryProps) {
             <TagEditField
                 label='Price'
                 value={price}
+                min={1}
                 editor='number'
                 onValueChange={s => setLotteryState({
                     ...lotteryState,
@@ -65,10 +87,30 @@ export function Lottery(props: ILotteryProps) {
             />
             {
                 charitiesList.length ?
-                <TagList
-                    primaryField='name'
-                    button1='Delete'
-                    data={selectedCharities}/> :
+                    <TagList
+                        primaryField='name'
+                        button1='Delete'
+                        data={selectedCharities}
+                        onButtonClick={event => {
+                            setLotteryState({
+                                ...lotteryState,
+                                selectedCharityIds: selectedCharityIds.filter(sci => sci !== event.detail.item.id)
+                            })
+                        }} /> :
+                    null
+            }
+            {
+                name && price && selectedCharityIds.length > 0 ? 
+                    <TagButton
+                        text='Submit'
+                        onClick={()=>{
+                            console.log(name, price, charities.filter(c => selectedCharityIds.includes(c.id)))
+                            props.submit({
+                                name,
+                                price,
+                                charities: charities.filter(c => selectedCharityIds.includes(c.id))
+                            })
+                        }}/> :
                     null
             }
         </div>
