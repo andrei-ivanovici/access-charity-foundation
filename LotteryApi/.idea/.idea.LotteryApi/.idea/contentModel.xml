@@ -9,9 +9,19 @@
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
-          <e p="WeatherForecastController.cs" t="Include" />
+          <e p="AuthApiController.cs" t="Include" />
+        </e>
+        <e p="Data" t="Include">
+          <e p="UserContext.cs" t="Include" />
+          <e p="UserRepo.cs" t="Include" />
         </e>
         <e p="LotteryApi.csproj" t="IncludeRecursive" />
+        <e p="Model" t="Include">
+          <e p="Entities" t="Include">
+            <e p="UserEntity.cs" t="Include" />
+          </e>
+          <e p="UserCredentials.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">
