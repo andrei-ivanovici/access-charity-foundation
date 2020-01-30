@@ -4,7 +4,8 @@ import {Container, Segment, Grid, Header, List} from "semantic-ui-react";
 import {TagAccessLogo} from "@tag/tag-components-react-v2";
 
 export const Footer: React.FC = () => {
-    return (  <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
+    return (
+        <Segment inverted vertical style={{ margin: '5em 0em 0em', padding: '5em 0em' }}>
         <Container textAlign='center'>
             <Grid divided inverted stackable>
                 <Grid.Column width={3}>

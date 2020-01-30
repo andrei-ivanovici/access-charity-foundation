@@ -21,7 +21,7 @@ export const MenuTop: React.FC = () => {
                 <Dropdown item text='Get Involved'>
                     <Dropdown.Menu>
                         <Dropdown.Header>Events</Dropdown.Header>
-                        <Dropdown.Item as="a" to="/">Lottery</Dropdown.Item>
+                        <Dropdown.Item as={Link} to="/lottery">Lottery</Dropdown.Item>
                         <Dropdown.Item>Charity sale</Dropdown.Item>
                         <Dropdown.Item>Activities</Dropdown.Item>
                     </Dropdown.Menu>

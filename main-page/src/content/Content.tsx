@@ -16,7 +16,8 @@ export const Content: React.FC = () => {
                 header='Lottery'
                 meta='Charity'
                 description='If you wanna be the best, win and help others in the same time join our lottery event.'
-            />
+            >
+            </Card>
 
             <Card
                 image='./lottery.jpg'
