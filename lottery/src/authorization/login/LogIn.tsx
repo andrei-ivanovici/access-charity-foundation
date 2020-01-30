@@ -49,6 +49,8 @@ function register() {
 
 async function doLogin({username, password}: Credentials) {
     await loginService.login(username, password);
+    console.log("logged in");
+    navigationService.go("/")
 
 
 }
