@@ -1,0 +1,24 @@
+.root {
+  margin-bottom: 1em;
+}
+
+.cardDetails {
+  padding: 1em;
+  position: relative;
+  height: 200px;
+}
+
+.cardNumber {;
+  font-size: 25px;
+  color: white;
+  font-weight: bold;
+}
+
+.logo {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  max-height: 100px;
+  opacity: 0.3;
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 1.0), transparent);
+}

@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {TagButton, TagEditField} from "@tag/tag-components-react-v2";
+import {TagButton, TagCombobox, TagEditField} from "@tag/tag-components-react-v2";
 import style from "./Register.module.scss"
-import {User} from "../../services/login.service";
+import {loginService, User} from "../../services/login.service";
+import {navigationService} from "../../services/navigation.service";
 
 const {
     root: rootClass,
@@ -11,17 +12,18 @@ const {
 type RegisteredUser = User & {
     password: string;
     confirmPassword: string;
+    role: string
 }
-
 
 export function Register() {
     const [newUser, setNewUser] = useState<RegisteredUser>({
         confirmPassword: "",
-        email: "",
+        mail: "",
         name: "",
         password: "",
+        role: "user"
     });
-    const {password, name, email, confirmPassword, avatar} = newUser;
+    const {password, name, mail, confirmPassword, role} = newUser;
     return <div className={rootClass}>
         Register
         <div className={formClass}>
@@ -35,10 +37,10 @@ export function Register() {
             />
             <TagEditField
                 label='email'
-                value={email}
+                value={mail}
                 onValueChange={v => setNewUser({
                     ...newUser,
-                    email: v.detail.value
+                    mail: v.detail.value
                 })}
             />
 
@@ -57,6 +59,21 @@ export function Register() {
                               confirmPassword: v.detail.value
                           })}
                           label='Confirm Password'
+
+            />
+            <TagCombobox
+                textField='name'
+                valueField='id'
+                placeholder='Card type'
+                value={role}
+                onValueChange={c => setNewUser({
+                    ...newUser,
+                    role: c.detail.item.id
+                })}
+                data={[
+                    {id: "user", name: 'User'},
+                    {id: "admin", name: 'Admin'}
+                ]}
             />
 
             <TagButton onClick={() => doRegister(newUser)} text={"Register"}/>
@@ -64,6 +81,7 @@ export function Register() {
     </div>
 }
 
-function doRegister(credentials: RegisteredUser) {
-
+async function doRegister(credentials: RegisteredUser) {
+    await loginService.register(credentials);
+    navigationService.go("/login");
 }
