@@ -2,9 +2,11 @@ import axios from "axios";
 import {Config, getAppConfig} from "../app.config";
 
 export interface User {
+    id?: number;
+    address?: string;
+    avatar?: string;
     name: string
     mail: string;
-    avatar?: string;
 }
 
 type  Listener = (u: User) => void

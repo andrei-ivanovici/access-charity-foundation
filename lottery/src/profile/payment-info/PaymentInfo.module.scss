@@ -1,0 +1,16 @@
+.root {
+  height: calc(100vh - 7em);
+  display: grid;
+  grid-template-rows: 50px 1fr max-content;
+  padding: 1em;
+  border: 1px solid #c7d5dc;
+}
+
+.list {
+  overflow-y: auto;
+  padding: 0 0 1em 0;
+}
+
+.footer {
+ margin-top: 1em;
+}

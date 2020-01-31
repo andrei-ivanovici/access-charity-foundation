@@ -34,5 +34,7 @@ namespace LotteryApi.Controllers
             await _repo.Save(user);
             return user;
         }
+
+       
     }
 }

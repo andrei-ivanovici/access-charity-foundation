@@ -1,0 +1,11 @@
+.root {
+  padding: 1em;
+  display: grid;
+  position: absolute;
+  grid-template-columns: 22em 1fr;
+  grid-gap: 1em;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
