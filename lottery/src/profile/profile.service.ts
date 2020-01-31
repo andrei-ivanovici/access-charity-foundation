@@ -35,4 +35,9 @@ export class ProfileService {
         const url = `${this._config.apiUrl}/profileapi/${id}/payment/${payment.id}`;
         await axios.delete(url);
     }
+
+    async saveUser(user: User) {
+        const url = `${this._config.apiUrl}/profileapi`;
+        await axios.post(url, user);
+    }
 }

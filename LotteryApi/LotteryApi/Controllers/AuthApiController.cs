@@ -35,6 +35,10 @@ namespace LotteryApi.Controllers
             return user;
         }
 
-       
+        [HttpGet("refresh/{id}")]
+        public UserContract Refresh(int id)
+        {
+            return _repo.GetUserProfile(id).User;
+        }
     }
 }

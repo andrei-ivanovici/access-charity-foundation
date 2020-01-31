@@ -53,7 +53,8 @@ namespace LotteryApi.Data
                     Avatar = result.Avatar,
                     Id = result.Id,
                     Mail = result.Mail,
-                    Name = result.Name
+                    Name = result.Name,
+                    Role = result.Role
                 }
             };
         }

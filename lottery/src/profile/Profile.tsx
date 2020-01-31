@@ -1,6 +1,6 @@
 import React, {useMemo, useEffect, useState} from "react";
 import style from "./Profile.module.scss";
-import {User} from "../services/login.service";
+import {loginService, User} from "../services/login.service";
 import {UserInfo} from "./user-info/UserInfo";
 import {PaymentInfo} from "./payment-info/PaymentInfo";
 import {ProfileService, ProfileData, Payment} from "./profile.service";
@@ -9,11 +9,10 @@ const {root} = style;
 
 export interface ProfileProps {
     user: User;
-    onSaveInfo: (user: User) => void;
 }
 
 
-function useData(user: User) {
+function useData({user}: ProfileProps) {
     const [profile, setProfile] = useState<ProfileData>({} as any);
     const [loading, setIsLoading] = useState(true);
     const profileService = useMemo(() => new ProfileService(), []);
@@ -28,6 +27,7 @@ function useData(user: User) {
 
     useEffect(() => {
         loadData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {
@@ -40,16 +40,25 @@ function useData(user: User) {
         removePayment: async (payment: Payment) => {
             await profileService.removePayment(profile.user.id!, payment);
             await loadData();
+        },
+        saveInfo: async (user: User) => {
+            await profileService.saveUser(user);
+            await loadData();
+            refreshUser();
         }
     };
 }
 
-export function Profile({user, onSaveInfo}: ProfileProps) {
-    const {loading, profile: {user: userInfo, payments: paymentSources}, saveNewPayment, removePayment} = useData(user);
+function refreshUser() {
+    loginService.refresh();
+}
+
+export function Profile(props: ProfileProps) {
+    const {profile: {user: userInfo, payments: paymentSources}, saveNewPayment, removePayment, saveInfo} = useData(props);
     return <div className={root}>
         {(userInfo && paymentSources) ? (
                 <>
-                    <UserInfo user={userInfo} onSaveUserInfo={onSaveInfo}/>
+                    <UserInfo user={userInfo} onSaveUserInfo={saveInfo}/>
                     <PaymentInfo payments={paymentSources}
                                  onNewPayment={saveNewPayment}
                                  onRemovePayment={removePayment}/>
