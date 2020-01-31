@@ -1,0 +1,24 @@
+.root {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background-color: #fff;
+  box-shadow: 0 3px 7px 0 rgba(110, 112, 114, .21);
+
+  &.admin {
+    color: white;
+    background-color: rgb(227, 23, 62);;
+  }
+}
+
+.headerContent {
+  display: grid;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  padding: 1em;
+}

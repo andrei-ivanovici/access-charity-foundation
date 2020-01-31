@@ -1,5 +1,5 @@
 import React from "react";
 
 export function Dashboard() {
-    return <div>Dashboard</div>
+  return <div>HELLO DASBOARD</div>
 }
