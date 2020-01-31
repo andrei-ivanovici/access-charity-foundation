@@ -65,7 +65,7 @@ export function App({user}: AppProps) {
                     }}/>
                 </Route>
                 <Route path={"/"}>
-                    <Redirect to={"/profile"}/>
+                    <Redirect to={"/dashboard"}/>
                 </Route>
             </Switch>
         </div>
