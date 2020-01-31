@@ -1,0 +1,28 @@
+.main {
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+
+    background-image: url("http://blog.hostbaby.com/wp-content/uploads/2014/03/BluePolygons_1920x1234.png");
+
+    > * {
+        margin: 0 1em 1em 0;
+    }
+
+    .cardContent {
+        height: 352px;
+
+        text-align: center;
+        box-sizing: border-box;
+
+        overflow: auto;
+    }
+}
