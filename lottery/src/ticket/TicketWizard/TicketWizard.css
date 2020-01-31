@@ -1,11 +1,19 @@
 .wizard{
-    width: 700px ;
-    padding-top: 50px;
-    padding-left: 50px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .space{
-    padding: 30px;
+    padding: 25px;
+}
+.space2{
+    padding: 10px;
+}
+.space3{
+    padding-top: 95px;
 }
 
 .card{
