@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LotteryApi.Model
+namespace LotteryApi.Model.Entities
 {
     [Table("Payment")]
     public class PaymentEntity

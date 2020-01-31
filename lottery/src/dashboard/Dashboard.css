@@ -1,4 +1,4 @@
-.main{
+.main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -6,14 +6,20 @@
     height: 100%;
     background-image: url("http://blog.hostbaby.com/wp-content/uploads/2014/03/BluePolygons_1920x1234.png");
 }
-.space{
+
+.space {
     padding-right: 20px;
 }
 
-.spacer{
+.spacer {
     height: 380px;
     text-align: center;
     padding-top: 150px;
     box-sizing: border-box;
+}
+
+.btn-buy {
+    display: block;
+    margin-top: 1em;
 }
 

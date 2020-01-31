@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using LotteryApi.Data;
 using LotteryApi.Model;
+using LotteryApi.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LotteryApi.Controllers

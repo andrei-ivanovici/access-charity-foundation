@@ -32,7 +32,7 @@ export const UserTickets: React.FC<UserTicketsProps> = ({currentUser}: UserTicke
     const [charityList, setCharityList] = useState<CharityInfo[]>([] as any[]);
     const [lotteryInfo, setLotteryInfo] = useState({} as LotteryInfo);
     const appConfig: Config = getAppConfig();
-    const url = `${appConfig.apiUrl}/api/Order/11`;
+    const url = `${appConfig.apiUrl}/api/Order/${currentUser.id}`;
     const urlLottery = `${appConfig.apiUrl}/LotteryEventApi/latest`;
 
     useEffect(() => {

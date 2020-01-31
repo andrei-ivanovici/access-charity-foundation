@@ -1,13 +1,13 @@
 export interface Config {
-    apiUrl: string;
+    siteUrl: string;
 }
 
 const env = {
     prod: {
-        apiUrl: "https://lottery-bk.azurewebsites.net"
+        siteUrl: "https://acc-lottery.netlify.com/"
     },
     dev: {
-        apiUrl: "https://localhost:5001"
+        siteUrl: "http://localhost:3000"
     }
 };
 

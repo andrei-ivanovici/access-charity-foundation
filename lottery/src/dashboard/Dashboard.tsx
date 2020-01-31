@@ -5,10 +5,13 @@ import {LotteryHistory} from "./lottery-history/LotteryHistory";
 import {navigationService} from "../services/navigation.service";
 import {CurrentLottery} from "./currentLottery/CurrentLottery";
 import {User} from "../services/login.service";
+import {TagButton} from "@tag/tag-components-react-v2";
+import "./Dashboard.css";
 
 interface DashboardProps {
     user: User;
 }
+
 function newTicket() {
     navigationService.go("/buy-ticket");
 }
@@ -16,8 +19,10 @@ function newTicket() {
 export function Dashboard({user}: DashboardProps) {
     return(
         <>
-        <div>Dashboard</div>
         <WinningCharity />
+            <span className={'btn-buy'}>
+            <TagButton onClick={newTicket} text={"Buy Ticket"}/>
+            </span>
         <LotteryHistory currentUser = {user}/>
             <UserTickets currentUser={user}/>
             <CurrentLottery/>
