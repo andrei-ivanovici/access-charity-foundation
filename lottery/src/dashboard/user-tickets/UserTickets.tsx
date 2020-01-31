@@ -19,11 +19,11 @@ export const UserTickets = () => {
     useEffect(()=> {
         (async () => {
             const result = await fetch(url);
-            const orders = JSON.parse(await result.text()) as any[];
-            setTickets(orders);
-            const ticket:MyTicket=orders.slice(-1).pop();
-            console.log(orders);
-            setMyTicket(ticket);
+            //const orders = JSON.parse(await result.text()) as any[];
+            // setTickets(orders);
+            // const ticket:MyTicket=orders.slice(-1).pop();
+            // console.log(orders);
+            // setMyTicket(ticket);
         })()
     }, []);
 
