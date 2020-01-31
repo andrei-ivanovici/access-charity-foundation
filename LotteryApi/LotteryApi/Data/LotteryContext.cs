@@ -8,6 +8,12 @@ namespace LotteryApi.Data
     {
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<PaymentEntity> Payments { get; set; }
+        public DbSet<CharityEntity> CharityEntity { get; set; }
+        public DbSet<LotteryEventEntity> LotteryEntity { get; set; }
+
+        public DbSet<TicketEntity> TicketEntity { get; set; }
+        public DbSet<CharityLotteryEntity> CharityLottery { get; set; }
+        public DbSet<DrawEntity> Draws { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,35 +29,33 @@ namespace LotteryApi.Data
                 .WithMany(g => g.Payments)
                 .HasForeignKey(s => s.UserId);
 
-            
+
             modelBuilder.Entity<TicketEntity>()
                 .HasOne<UserEntity>(s => s.User)
                 .WithMany(g => g.Tickets)
                 .HasForeignKey(s => s.UserId);
-            
-            modelBuilder.Entity<CharityLotteryEntity>().HasKey(sc => new { sc.CharityId, sc.LotteryId });
+
+            modelBuilder.Entity<CharityLotteryEntity>().HasKey(sc => new {sc.CharityId, sc.LotteryId});
             modelBuilder.Entity<CharityLotteryEntity>()
-                         .HasOne<LotteryEventEntity>(sc => sc.Lottery)
-                         .WithMany(lotteryEvent => lotteryEvent.LoteryCharity)
-                         .HasForeignKey(charityLottery => charityLottery.LotteryId);
+                .HasOne<LotteryEventEntity>(sc => sc.Lottery)
+                .WithMany(lotteryEvent => lotteryEvent.LoteryCharity)
+                .HasForeignKey(charityLottery => charityLottery.LotteryId);
 
             modelBuilder.Entity<CharityLotteryEntity>()
-                         .HasOne<CharityEntity>(sc => sc.Charity)
-                         .WithMany(charity => charity.CharityLottery)
-                         .HasForeignKey(charityLottery => charityLottery.CharityId);
-            
-            
+                .HasOne<CharityEntity>(sc => sc.Charity)
+                .WithMany(charity => charity.CharityLottery)
+                .HasForeignKey(charityLottery => charityLottery.CharityId);
+
+
             modelBuilder.Entity<TicketEntity>()
                 .HasOne<LotteryEventEntity>(s => s.Lottery)
                 .WithMany(g => g.Tickets)
                 .HasForeignKey(s => s.LotteryId);
+
+            // modelBuilder.Entity<DrawEntity>()
+            //     .HasOne<TicketEntity>(s => s.Ticket)
+            //     .WithOne(s => s.Draw)
+            //     .HasForeignKey<DrawEntity>(d => d.TicketId);
         }
-
-
-        public DbSet<CharityEntity> CharityEntity { get; set; }
-        public DbSet<LotteryEventEntity> LotteryEntity { get; set; }
-
-        public DbSet<TicketEntity> TicketEntity{ get; set; }
-        public DbSet<CharityLotteryEntity> CharityLottery{ get; set; }
     }
 }

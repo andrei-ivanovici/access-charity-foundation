@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using LotteryApi.Model.Entities;
 
-namespace LotteryApi.Model
+namespace LotteryApi.Model.Entities
 {
     [Table("User")]
     public class UserEntity

@@ -1,7 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
 using LotteryApi.Data;
 using LotteryApi.Model;
+using LotteryApi.Model.Draw;
 using LotteryApi.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,62 @@ namespace LotteryApi.Controllers
                         Name = c.Name
                     }).ToList()
             };
+        }
+
+        [HttpGet]
+        [Route("draw")]
+        public DrawResult DrawWinner()
+        {
+            var generator = new Random();
+
+            var latestLottery = _ctx.LotteryEntity.OrderByDescending(l => l.Id)
+                .Include(l => l.Tickets)
+                .ThenInclude(t => t.User)
+                .Include(l => l.LoteryCharity)
+                .ThenInclude(c => c.Charity)
+                .First();
+
+            var pool = latestLottery.Tickets.OrderBy(t => t.Id).ToList();
+            var winningNumber = generator.Next(pool.Count);
+            var winingTicket = pool[winningNumber];
+            var winningUser = winingTicket.User;
+            var voteResult = pool.GroupBy(p => p.CharityId)
+                .Select(g => new
+                {
+                    CharityId = g.Key,
+                    Votes = g.Count()
+                }).OrderByDescending(c => c.Votes)
+                .First();
+
+            var winningCharity = this._ctx.CharityEntity.First(c => c.Id == voteResult.CharityId);
+
+            var result = new DrawResult
+            {
+                TotalParticipants = pool.Count,
+                TicketId = new DrawTicket()
+                {
+                    TicketId = winingTicket.Id,
+                    Name = winingTicket.Name
+                },
+                User = new DrawnUser()
+                {
+                    Name = winningUser.Name,
+                    Id = winningUser.Id
+                },
+                Charity = new DrawCharity
+                {
+                    Id = winningCharity.Id,
+                    Name = winningCharity.Name
+                }
+            };
+
+            var drawEntity = new DrawEntity()
+            {
+                TicketId = winingTicket.Id
+            };
+            _ctx.Draws.Add(drawEntity);
+            _ctx.SaveChanges();
+            return result;
         }
     }
 }

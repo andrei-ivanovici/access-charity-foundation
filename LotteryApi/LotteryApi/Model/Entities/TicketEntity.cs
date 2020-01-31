@@ -17,6 +17,7 @@ namespace LotteryApi.Model.Entities
         public int LotteryId { get; set; }
         public int CharityId { get; set; }
         public UserEntity User { get; set; }
+        public DrawEntity Draw { get; set; }
         public LotteryEventEntity Lottery { get; set; }
     }
 }
