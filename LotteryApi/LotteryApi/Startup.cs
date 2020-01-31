@@ -29,6 +29,8 @@ namespace LotteryApi
             services.AddScoped<UserRepo>();
             services.AddControllers();
             services.AddDbContext<LotteryContext>();
+            services.AddScoped<LotteryEventRepo>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

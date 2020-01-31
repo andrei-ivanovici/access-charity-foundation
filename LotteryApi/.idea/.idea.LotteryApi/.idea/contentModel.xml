@@ -11,21 +11,29 @@
         <e p="Controllers" t="Include">
           <e p="AuthApiController.cs" t="Include" />
           <e p="CharityEntitiesController.cs" t="Include" />
+          <e p="LotteryEventApi.cs" t="Include" />
           <e p="OrderController.cs" t="Include" />
           <e p="ProfileApiController.cs" t="Include" />
         </e>
         <e p="Data" t="Include">
           <e p="LotteryContext.cs" t="Include" />
+          <e p="LotteryEventRepo.cs" t="Include" />
           <e p="UserRepo.cs" t="Include" />
         </e>
         <e p="LotteryApi.csproj" t="IncludeRecursive" />
         <e p="Model" t="Include">
+          <e p="CharityContract.cs" t="Include" />
+          <e p="CreateLotteryEventContract.cs" t="Include" />
           <e p="Entities" t="Include">
             <e p="CharityEntity.cs" t="Include" />
+            <e p="CharityLotteryEntity.cs" t="Include" />
+            <e p="LotteryEventEntity.cs" t="Include" />
             <e p="PaymentEntity.cs" t="Include" />
             <e p="TicketEntity.cs" t="Include" />
             <e p="UserEntity.cs" t="Include" />
           </e>
+          <e p="LottertyEvent.cs" t="Include" />
+          <e p="LotteryInfo.cs" t="Include" />
           <e p="PaymentContract.cs" t="Include" />
           <e p="ProfileData.cs" t="Include" />
           <e p="UserContract.cs" t="Include" />
