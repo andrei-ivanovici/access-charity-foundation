@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {TagAppHeader, TagCard, TagList} from "@tag/tag-components-react-v2";
 import {Config, getAppConfig} from "../../app.config";
+import {User} from "../../services/login.service";
 
 interface Ticket {
     id: number,
-    name: string,
-    price: number,
     charityId: number;
+    lotteryId: number;
 }
 
 interface Charity {
@@ -14,35 +14,50 @@ interface Charity {
     name: string;
 }
 
-export const LotteryHistory: React.FC = () => {
+interface LotteryInfo {
+    id: number;
+    name: string;
+    charities: Charity[];
+    price: number;
+
+}
+interface LotteryHistoryProps {
+    currentUser: User
+}
+export const LotteryHistory: React.FC<LotteryHistoryProps> = ({currentUser}: LotteryHistoryProps) => {
     const [tickets, setTickets] = useState([] as Ticket[]);
     const [charity, setCharity] = useState([] as Charity[]);
+    const [lotteryInfo, setLotteryInfo] = useState<LotteryInfo>();
 
     const appConfig: Config = getAppConfig();
-    const urlOrders = `${appConfig.apiUrl}/api/Order`;
-    const urlCharity = `${appConfig.apiUrl}/api/CharityEntities`;
+    const urlOrders = `${appConfig.apiUrl}/api/Order/${currentUser.id}`;
+    const urlLottery = `${appConfig.apiUrl}/LotteryEventApi/latest`;
 
     useEffect(()=>{
         (async() =>{
-            const result = await fetch(urlOrders);
-            //const orders = JSON.parse(await result.text()) as Ticket[];
-            const resultCharity = await fetch(urlCharity);
-            const charities = JSON.parse(await resultCharity.text()) as Charity[];
+            const result = await fetch(urlLottery);
+            const lotteryInfo = JSON.parse(await result.text()) as LotteryInfo;
+            setLotteryInfo(lotteryInfo);
+            //console.log(lotteryInfo);
+            const resultOrders = await fetch(urlOrders);
+            const orders = JSON.parse(await resultOrders.text()) as Ticket[];
+            setTickets(orders);
             //console.log(orders);
-            console.log(charities);
-            setCharity(charities);
-           // setTickets(orders);
         })();
     }, []);
 
 
-    const listData = tickets.map(ticket =>({
-        name: `Ticket name: ${ticket.name}`,
-        price: `Paid: ${ticket.price} $`,
-        charityName: charity.find(cha => cha.id === ticket.id)?.name
+    const ticketsLottery = tickets.filter(ticket =>(ticket.lotteryId === lotteryInfo?.id));
+    console.log("data", ticketsLottery);
+    const listData = ticketsLottery.map(ticket =>({
+        name: `Lottery name: ${lotteryInfo?.name}`,
+        price: `Paid: ${lotteryInfo?.price} $`,
+        charityName: lotteryInfo?.charities.find(c => c.id === ticket.charityId)?.name
     }));
 
-    const pageSize = Math.round(listData.length / 5);
+
+
+    const pageSize = 5;
     console.log(pageSize);
     const [page, setPage] = useState(1);
 

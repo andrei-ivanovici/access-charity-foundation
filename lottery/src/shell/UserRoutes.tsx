@@ -12,7 +12,7 @@ export interface UserRoutesProps {
 export function UserRoutes({user}: UserRoutesProps) {
     return <Switch>
         <Route path={"/user/dashboard"}>
-            <Dashboard/>
+            <Dashboard user={user}/>
         </Route>
         <Route path={"/buy-ticket"}>
             <TicketWizard user={user!}/>
