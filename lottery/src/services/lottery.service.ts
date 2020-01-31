@@ -14,14 +14,18 @@ export interface ILotteryInfo {
 }
 
 export class LotteryService {
+    private _baseUrl = getAppConfig().apiUrl;
+
     public async submitLottery(lottery: ILotteryInfo): Promise<void> {
-        const appConfig: Config = getAppConfig();
-        const url = `${appConfig.apiUrl}/LotteryEventApi`;
+        const url = `${this._baseUrl}/LotteryEventApi`;
 
         return axios.post(url, {
             ...lottery
         });
+    }
 
+    public async getCharities(): Promise<{ data: ICharity[] }> {
+        return axios.get(`${this._baseUrl}/api/CharityEntities`);
     }
 }
 

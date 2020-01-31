@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TagEditField, TagCombobox, TagList, TagButton, TagDatePicker } from '@tag/tag-components-react-v2';
 
 import style from "./Lottery.module.scss";
@@ -6,40 +6,39 @@ import { ICharity, lotteryService } from '../../services/lottery.service';
 
 const { lottery: lotteryClass } = style;
 
-interface ILotteryProps {
-    charities: ICharity[];
-}
-
 interface ILotteryState {
     selectedCharityIds: string[];
+    charities: ICharity[];
     name: string;
     price: number;
     drawDate: Date;
 }
 
-const demoCharities: ICharity[] = [
-    {
-        id: "1",
-        name: "Save the kittens"
-    },
-    {
-        id: "2",
-        name: "Hot meals on winter days"
-    },
-    {
-        id: "3",
-        name: "Nests for storks"
-    }
-];
+async function getCharities() {
+    return lotteryService.getCharities();
+}
 
-export function Lottery(props: ILotteryProps) {
-    const [lotteryState, setLotteryState] = useState<ILotteryState>({ name: '', price: 10, selectedCharityIds: [], drawDate: undefined as any });
-    const { name, price, selectedCharityIds, drawDate } = lotteryState;
-    const charities = props.charities.length ? props.charities : demoCharities;
+export function Lottery() {
+    const [lotteryState, setLotteryState] = useState<ILotteryState>({
+        name: '', price: 10,
+        selectedCharityIds: [],
+        drawDate: undefined as any,
+        charities: []
+    });
+    const { name, price, selectedCharityIds, drawDate, charities } = lotteryState;
 
     const availableCharities = charities.filter(c => !selectedCharityIds.includes(c.id));
     const selectedCharities = charities.filter(c => selectedCharityIds.includes(c.id));
     const charitiesList = selectedCharities.map(c => <li key={c.id}>{c.name}</li>);
+
+    useEffect(() => {
+        getCharities().then(cs => {
+            setLotteryState({
+                ...lotteryState,
+                charities: cs.data
+            })
+        });
+    }, []);
 
     return (
         <div className={lotteryClass}>
@@ -58,7 +57,7 @@ export function Lottery(props: ILotteryProps) {
                 editor='number'
                 onValueChange={s => setLotteryState({
                     ...lotteryState,
-                    price: s.detail.value
+                    price: +s.detail.value
                 })}
             />
             <TagDatePicker
