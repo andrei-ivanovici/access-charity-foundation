@@ -19,7 +19,7 @@ export function Dashboard({user}: DashboardProps) {
         <div>Dashboard</div>
         <WinningCharity />
         <LotteryHistory currentUser = {user}/>
-            {/*<UserTickets/>*/}
+            <UserTickets currentUser={user}/>
             <CurrentLottery/>
         </>
     );
