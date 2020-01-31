@@ -1,7 +1,9 @@
 import React from "react";
+import {UserTickets} from "./user-tickets/UserTickets";
 import {WinningCharity} from "./winning-charity/WinningCharity";
 import {LotteryHistory} from "./lottery-history/LotteryHistory";
 import {navigationService} from "../services/navigation.service";
+import {CurrentLottery} from "./currentLottery/CurrentLottery";
 import {User} from "../services/login.service";
 
 interface DashboardProps {
@@ -17,6 +19,8 @@ export function Dashboard({user}: DashboardProps) {
         <div>Dashboard</div>
         <WinningCharity />
         <LotteryHistory currentUser = {user}/>
+            <UserTickets currentUser={user}/>
+            <CurrentLottery/>
         </>
     );
 }
