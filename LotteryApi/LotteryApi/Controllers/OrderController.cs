@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LotteryApi.Data;
+using LotteryApi.Model;
 using LotteryApi.Model.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,11 +33,26 @@ namespace LotteryApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TicketEntity>>> GetTicketEntity()
+        public  IEnumerable<TicketEntity> GetTicketEntity()
         {
-            return await _context.TicketEntity.ToListAsync();
+            var r = _context.TicketEntity.ToList();
+            return r;
         }
 
+        [HttpGet]
+        [Route("{id}")]
+        public IEnumerable<TicketContract> GetTicketEntity(int  id)
+        {
+           var user= _context.Users
+                .Include(u=>u.Tickets)
+                .First(u => u.Id == id);
+
+            return user.Tickets.Select(t=>new TicketContract() { 
+               Id= t.Id,
+               LotteryId  = t.LotteryId,
+               CharityId = t.CharityId
+            });
+        }
         [HttpPost]
         public async Task<ActionResult<TicketEntity[]>> SubmitOrder(Order order)
         {
