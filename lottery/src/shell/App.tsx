@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TagAvatar, TagTopNavbar} from "@tag/tag-components-react-v2";
+import {TagTopNavbar} from "@tag/tag-components-react-v2";
 import style from "./App.module.scss";
 import {SideNav, SideNavItem} from "../components/sidenav/SideNav";
 import {Redirect, Route, Switch} from "react-router";
@@ -61,8 +61,7 @@ export function App({user}: AppProps) {
                     <Dashboard/>
                 </Route>
                 <Route path={"/profile"}>
-                    <Profile user={user} onSaveInfo={() => {
-                    }}/>
+                    <Profile user={user}/>
                 </Route>
                 <Route path={"/"}>
                     <Redirect to={"/profile"}/>
