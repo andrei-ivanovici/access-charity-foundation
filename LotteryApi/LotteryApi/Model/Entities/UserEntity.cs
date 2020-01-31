@@ -12,6 +12,7 @@ namespace LotteryApi.Model
         public string Address { get; set; }
         public string Avatar { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
         public ICollection<PaymentEntity> Payments { get; set; }
     }
 }

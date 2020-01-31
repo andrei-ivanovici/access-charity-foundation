@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {TagButton, TagEditField} from "@tag/tag-components-react-v2";
+import {TagButton, TagCombobox, TagEditField} from "@tag/tag-components-react-v2";
 import style from "./Register.module.scss"
 import {loginService, User} from "../../services/login.service";
 import {navigationService} from "../../services/navigation.service";
@@ -12,6 +12,7 @@ const {
 type RegisteredUser = User & {
     password: string;
     confirmPassword: string;
+    role: string
 }
 
 export function Register() {
@@ -20,8 +21,9 @@ export function Register() {
         mail: "",
         name: "",
         password: "",
+        role: "user"
     });
-    const {password, name, mail, confirmPassword} = newUser;
+    const {password, name, mail, confirmPassword, role} = newUser;
     return <div className={rootClass}>
         Register
         <div className={formClass}>
@@ -57,6 +59,21 @@ export function Register() {
                               confirmPassword: v.detail.value
                           })}
                           label='Confirm Password'
+
+            />
+            <TagCombobox
+                textField='name'
+                valueField='id'
+                placeholder='Card type'
+                value={role}
+                onValueChange={c => setNewUser({
+                    ...newUser,
+                    role: c.detail.item.id
+                })}
+                data={[
+                    {id: "user", name: 'User'},
+                    {id: "admin", name: 'Admin'}
+                ]}
             />
 
             <TagButton onClick={() => doRegister(newUser)} text={"Register"}/>

@@ -1,13 +1,11 @@
-import React, {useState} from 'react';
-import {TagTopNavbar} from "@tag/tag-components-react-v2";
+import React, {useEffect, useState} from 'react';
 import style from "./App.module.scss";
 import {SideNav, SideNavItem} from "../components/sidenav/SideNav";
-import {Redirect, Route, Switch} from "react-router";
 import {navigationService} from "../services/navigation.service";
-import {Dashboard} from "../dashboard/Dashboard";
-import {Profile} from "../profile/Profile";
 import {User} from "../services/login.service";
-import {UserProfile} from "./user-profile/UserProfile";
+import {UserRoutes} from "./UserRoutes";
+import {AdminRoutes} from "./AdminRoutes";
+import {TopNav} from "../components/top-nav/TopNav";
 
 const {root, nav, header, content, headerContent} = style;
 
@@ -26,17 +24,51 @@ const navItems: SideNavItem[] = [
     }
 ];
 
+
+const adminNavItems: SideNavItem[] = [
+    {
+        id: 'dashboard',
+        icon: "Badge2",
+        action: openAdminHome,
+        isActive: true
+
+    },
+    {
+        id: 'profile',
+        icon: "User",
+        action: openProfile
+    }
+];
+
 function openHome() {
-    navigationService.go("/dashboard")
+    navigationService.go("/user/dashboard")
 }
+
+
+function openAdminHome() {
+    navigationService.go("/admin/settings")
+}
+
 
 function openProfile() {
     navigationService.go("/profile")
 }
 
-function useNavigation() {
-    const [items,] = useState(navItems);
+function useNavigation(user: User) {
+
+    const [items, setItems] = useState<SideNavItem[]>([]);
+    const [title, setTitle] = useState<string>();
+    useEffect(() => {
+        if (user.role == 'admin') {
+            setTitle("Charity Foundation ADMIN");
+            setItems(adminNavItems)
+        } else {
+            setTitle("Charity Foundation");
+            setItems(navItems)
+        }
+    }, [user]);
     return {
+        title,
         navItems: items
     }
 }
@@ -46,27 +78,13 @@ export interface AppProps {
 }
 
 export function App({user}: AppProps) {
-    const {navItems} = useNavigation();
+    const {navItems} = useNavigation(user);
     return <div className={root}>
-        <TagTopNavbar className={header}>
-            <div className={headerContent}>
-                {"Charity Foundation "}
-                <UserProfile user={user}/>
-            </div>
-        </TagTopNavbar>
+        <TopNav user={user} className={header}/>
         <SideNav items={navItems} className={nav}/>
         <div className={content}>
-            <Switch>
-                <Route path={"/dashboard"}>
-                    <Dashboard/>
-                </Route>
-                <Route path={"/profile"}>
-                    <Profile user={user}/>
-                </Route>
-                <Route path={"/"}>
-                    <Redirect to={"/profile"}/>
-                </Route>
-            </Switch>
+            {user.role === 'admin' ? <AdminRoutes user={user}/>
+                : <UserRoutes user={user}/>}
         </div>
     </div>
 }
