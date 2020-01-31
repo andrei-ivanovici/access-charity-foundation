@@ -16,7 +16,6 @@ import {Config, getAppConfig} from "../../app.config";
 import axios from "axios";
 import {User} from "../../services/login.service";
 import {navigationService} from "../../services/navigation.service";
-import {renderToNodeStream} from "react-dom/server";
 
 interface CharityInfo {
     id: number;
