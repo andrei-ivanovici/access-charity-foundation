@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {TagAvatar, TagButton, TagEditField} from "@tag/tag-components-react-v2";
+import {TagAvatar, TagButton, TagCombobox, TagEditField} from "@tag/tag-components-react-v2";
 import defaultAvatar from "../../shell/user-profile/defaultUser.png";
 import {User} from "../../services/login.service";
 import style from "./UserInfo.module.scss";
@@ -69,6 +69,22 @@ export function UserInfo({user, onSaveUserInfo}: UserDetailsProps) {
                                   })
                               }}/>
             </div>
+            <div className={formField}>
+                <TagCombobox
+                    textField='name'
+                    valueField='id'
+                    placeholder='Role'
+                    value={userInfo.role}
+                    onValueChange={c => updateUser({
+                        role: c.detail.item.id
+                    })}
+                    data={[
+                        {id: "user", name: 'User'},
+                        {id: "admin", name: 'Admin'}
+                    ]}
+                />
+            </div>
+
         </div>
         < div className={footer}>
             < TagButton

@@ -7,6 +7,7 @@ export interface User {
     avatar?: string;
     name: string
     mail: string;
+    role: string;
 }
 
 type  Listener = (u: User) => void
@@ -52,7 +53,7 @@ export class LoginService {
 
     public tryRestorePayload() {
         const payload = sessionStorage.getItem("user");
-        this.user= payload && JSON.parse(payload);
+        this.user = payload && JSON.parse(payload);
         return this.user;
     }
 
