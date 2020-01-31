@@ -1,26 +1,71 @@
-import React, { useState } from 'react';
-import  { TagWizard, TagWizardStep, TagFormGroup, TagEditField, TagField, TagList, TagCard, TagAppHeader, TagStats } from "@tag/tag-components-react-v2";
+import React, {useEffect, useState} from 'react';
+import {
+    TagWizard,
+    TagWizardStep,
+    TagFormGroup,
+    TagEditField,
+    TagField,
+    TagList,
+    TagCard,
+    TagAppHeader,
+    TagStats,
+    ITagEditFieldOption
+} from "@tag/tag-components-react-v2";
 import "./TicketWizard.css";
+import {Config, getAppConfig} from "../../app.config";
+import axios from "axios";
 
 export function TicketWizard(){
+    const [ticketNumber, setTicketNumber]=useState(0);
+    const [charityList, setCharityList]=useState([] as any[]);
+    const [selectedCharity, setSelectedCharity]=useState();
+    const appConfig: Config = getAppConfig();
+    const url = `${appConfig.apiUrl}/api/CharityEntities`;
 
+    useEffect(()=>{
+        (async()=>{
+           const result=await fetch(url);
+            const charities=JSON.parse(await result.text()) as any[];
+            const charityOptions = charities.map(c=>{
+                let charity = {} as ITagEditFieldOption;
+                charity.label = c.name;
+                charity.value = c.id;
+
+                return charity
+            });
+            setCharityList(charities)
+        })()
+
+
+    }, []);
     return (
         <div className="wizard">
           <TagWizard heading='Buy Ticket process' height="400px">
             <TagWizardStep name='step1' heading='Select tickets'>
+                <div className="space"></div> 
+                <TagEditField label='How many tickets do you want to buy?' 
+                        editor='number'
+                         name='ticketsNumber' 
+                         value={ticketNumber} 
+                         onValueChange={(e)=>setTicketNumber(e.detail.value)} />
                 <div className="space"></div>
-                <TagEditField label='How many tickets do you want to buy?' name='ticketsNumber'/>
-                <div className="space"></div>
-                <TagField label='Total amount:' value='1000' />
+                <TagField label='Total amount:' value= {ticketNumber*10} />
             </TagWizardStep>
             <TagWizardStep name='step2' heading='Select charity'>
                 <div className="space"></div>
-                <TagEditField  label='Select your favourite charity' editor="radio" options={[
-                            {label: ''},
-                            {label: 'Charity 1', value: 1},
-                            {label: 'Charity 2', value: 2},
-                            {label: 'Charity 3', value: 3}
-                ]}/>
+                <TagEditField
+                    label='Select your favourite charity'
+                    editor="radio"
+                    options={charityList.map(c=>{
+                        let charity = {} as ITagEditFieldOption;
+                        charity.label = c.name;
+                        charity.value = c.id;
+
+                        return charity
+                    })}
+                    value={selectedCharity}
+                    onValueChange={(e)=>setSelectedCharity(e.detail.value)}
+                />
             </TagWizardStep>
             <TagWizardStep name='step3' heading='Review tickets details'>
                 <div className="space"></div>
@@ -39,17 +84,30 @@ export function TicketWizard(){
                         labelField='label'
                         valueField='value'
                         data={[
-                        { label: 'Tickets selected', value: '3' },
-                        { label: 'Charity', value: 'Charity 1' },
+                            { label: 'Tickets selected', value: ticketNumber },
+                            { label: 'Charity', value: charityList.find(charity => charity.id==selectedCharity)?.name },
                         ]}
                     />
                 </TagCard>
             </TagWizardStep>
-            <TagWizardStep name='step4' heading='Complete' finishCaption="Finish">
+            <TagWizardStep name='step4' heading='Complete' finishCaption="Finish" onFinishClick={e => submitOrder(ticketNumber, charityList.find(charity => charity.id==selectedCharity)) }>
                 <TagField value='Thank you' />
             </TagWizardStep>
         </TagWizard>
       </div>
     )
+}
+
+async function submitOrder(ticketNumber: any, charity: any){
+    const appConfig: Config = getAppConfig();
+    const url = `${appConfig.apiUrl}/api/order`;
+
+    const response = await axios.post(url, {
+        ticketNumber: Number(ticketNumber),
+        charityId: charity.id
+    });
+
+    console.log(response)
+
 }
 //export default TicketWizard;
