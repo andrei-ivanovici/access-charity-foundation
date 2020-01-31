@@ -29,6 +29,22 @@ namespace LotteryApi.Controllers
             _repo.Save(contract);
         }
 
+
+        [HttpGet]
+        [Route("latest-dashboard")]
+        public DashboardLotteryInfo GetLatestLotteryDashboard()
+        {
+            var latestLottery = _ctx.LotteryEntity.OrderByDescending(l => l.Id)
+                .Include(l => l.Tickets)
+                .First();
+            return new DashboardLotteryInfo()
+            {
+                Raised = latestLottery.Tickets.Count * latestLottery.Price,
+                LotteryName = latestLottery.Name,
+                SoldCount = latestLottery.Tickets.Count
+            };
+        }
+
         [HttpGet]
         [Route("latest")]
         public LotteryInfo GetLatestLottery()

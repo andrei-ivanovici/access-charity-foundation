@@ -23,6 +23,12 @@ export interface DrawResult {
     totalParticipants: number;
 }
 
+export interface LotteryTileInfo {
+    soldCount: number;
+    raised: number;
+    lotteryName: string;
+}
+
 export class AdminDashboardService {
 
     _url: string;
@@ -33,19 +39,19 @@ export class AdminDashboardService {
 
     public async draw(): Promise<DrawResult> {
         const url = `${this._url}/LotteryEventApi/draw`;
-        const result = await axios.get(url)
+        const result = await axios.get(url);
         return result.data;
     }
 
     public async getLastDrawAsync(): Promise<DrawResult> {
         const url = `${this._url}/LotteryEventApi/lastDraw`;
-        const result = await axios.get(url)
+        const result = await axios.get(url);
         return result.data;
     }
 
-   async latestLotteryInfo() {
-        const url = `${this._url}/LotteryEventApi/latestLottery`;
-        const result = await axios.get(url)
+    async latestLotteryInfo(): Promise<LotteryTileInfo> {
+        const url = `${this._url}/LotteryEventApi/latest-dashboard`;
+        const result = await axios.get(url);
         return result.data;
     }
 }

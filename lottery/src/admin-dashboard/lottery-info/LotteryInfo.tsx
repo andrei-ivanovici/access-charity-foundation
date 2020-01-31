@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {TagAppHeader, TagCard, TagStats} from "@tag/tag-components-react-v2";
-import {adminDashboardService} from "../admin-dashboard.service";
+import {adminDashboardService, LotteryTileInfo} from "../admin-dashboard.service";
+import style from "./LotteryInfo.module.scss";
 
+const {cardContent} = style;
 
 function useData() {
-    const [info, setInfo] = useState()
+    const [info, setInfo] = useState<LotteryTileInfo>({
+        lotteryName: "",
+        raised: 0,
+        soldCount: 0
+    });
     useEffect(() => {
         const loadData = async () => {
             const result = await adminDashboardService.latestLotteryInfo();
@@ -29,15 +35,17 @@ export function LotteryInfo() {
             heading='Charity lottery information'
             heading-accent='plum'
         />
-        <TagStats
-            accent='plum'
-            heading='Charity Name'
-            labelField='label'
-            valueField='value'
-            data={[
-                {label: 'Tickets sold', value: '100'},
-                {label: 'Amount raised', value: '100000'},
-            ]}
-        />
+        <div className={cardContent}>
+            <TagStats
+                accent='plum'
+                heading={info?.lotteryName}
+                labelField='label'
+                valueField='value'
+                data={[
+                    {label: 'Tickets sold', value: info?.soldCount},
+                    {label: 'Amount raised', value: info?.raised},
+                ]}
+            />
+        </div>
     </TagCard>
 }
