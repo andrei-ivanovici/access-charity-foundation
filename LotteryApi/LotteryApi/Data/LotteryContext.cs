@@ -1,5 +1,6 @@
 ﻿using LotteryApi.Model;
 using Microsoft.EntityFrameworkCore;
+using LotteryApi.Model.Entities;
 
 namespace LotteryApi.Data
 {
@@ -22,5 +23,13 @@ namespace LotteryApi.Data
                 .WithMany(g => g.Payments)
                 .HasForeignKey(s => s.UserId);
         }
+
+
+        public DbSet<CharityEntity> CharityEntity { get; set; }
+
+        public DbSet<TicketEntity> TicketEntity{ get; set; }
+
+
+
     }
 }

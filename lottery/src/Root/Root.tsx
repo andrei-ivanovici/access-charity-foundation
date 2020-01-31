@@ -1,11 +1,12 @@
 import React, {useEffect, useMemo, useState} from "react";
-import {Redirect, Route, Router, Switch} from "react-router-dom";
+import {Redirect, Route, Router, Switch, BrowserRouter} from "react-router-dom";
 import {GuardedRoute} from "../components/GuardedRoute";
 import {App} from "../shell/App";
 import {LogIn} from "../authorization/login/LogIn";
 import {appHistory} from "../services/navigation.service";
 import {Register} from "../authorization/register/Register";
 import {loginService, User} from "../services/login.service";
+import { TicketWizard } from "../ticket/TicketWizard/TicketWizard";
 
 
 function useAuthorization() {
@@ -38,6 +39,9 @@ export function Root() {
                               onSuccess={() => <LogIn/>}
                               onFail={() => <Redirect to={"/"}/>}
                 />
+            </Route>
+            <Route path={"/buy-ticket"}>
+                <TicketWizard/>
             </Route>
             <Route path={"/"}>
                 <GuardedRoute canNavigate={() => isAuthorized}
