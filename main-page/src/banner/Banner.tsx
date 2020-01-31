@@ -6,5 +6,6 @@ export const Banner: React.FC =() =>{
     return (
         <div>
         <img className="banner-image" src={"./charity-together.jpg"} alt ="banner"/>
-    </div>)
+    </div>
+    );
 };

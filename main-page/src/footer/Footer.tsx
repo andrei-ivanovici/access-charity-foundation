@@ -22,5 +22,6 @@ export const Footer: React.FC = () => {
                 </Grid.Column>
             </Grid>
         </Container>
-    </Segment>)
+    </Segment>
+    );
 };
