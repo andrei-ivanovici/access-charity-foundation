@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {TagAppHeader, TagCard, TagStats} from "@tag/tag-components-react-v2";
 import "./UserTickets.css"
 import {Config, getAppConfig} from "../../app.config";
+import {User} from "../../services/login.service";
 
 interface CharityInfo {
     id: number;
@@ -10,27 +11,37 @@ interface CharityInfo {
 
 interface MyTicket {
     id: number;
-    name:string;
-    price:number;
     charityId:number;
     lotteryId:number;
-    charities: CharityInfo[];
 }
-export const UserTickets = () => {
 
-    const [tickets, setTickets] = useState<MyTicket>();
+interface LotteryInfo {
+    id: number;
+    name: string;
+    charities: CharityInfo[];
+    price: number;
+
+}
+
+interface UserTicketsProps {
+    currentUser: User
+}
+export const UserTickets:React.FC<UserTicketsProps> = ({currentUser}: UserTicketsProps) => {
+
+    const [tickets, setTickets] = useState([] as MyTicket[]);
     const [charityList, setCharityList] = useState<CharityInfo[]>([] as any[]);
     // const [myTicket, setMyTicket] = useState({} as MyTicket);
     const appConfig: Config = getAppConfig();
-    const url = `${appConfig.apiUrl}/api/Order`;
+    const url = `${appConfig.apiUrl}/api/Order/${currentUser.id}`;
+    const urlLottery = `${appConfig.apiUrl}/LotteryEventApi/latest`;
 
     useEffect(()=> {
         (async () => {
             const result = await fetch(url);
-            const tickets = JSON.parse(await result.text())as MyTicket;
+            const tickets = JSON.parse(await result.text())as MyTicket[];
              console.log(tickets);
             setTickets(tickets);
-            setCharityList(tickets.charities);
+            //setCharityList(tickets.charities);
             //const orders = JSON.parse(await result.text()) as any[];
             // setTickets(orders);
             // const ticket:MyTicket=orders.slice(-1).pop();
@@ -59,12 +70,12 @@ export const UserTickets = () => {
                 <TagStats
                     accent='white'
                     heading='Save The Children'
-                    subHeading= {tickets?.name}
+                    // subHeading= {}
                     labelField='label'
                     valueField='value'
                     data={[
-                        { label: 'Number of the Ticket', value: tickets?.name },
-                        { label: 'Number of Tickets', value: tickets?.charities },
+                        { label: 'Number of the Ticket', value: "" },
+                        { label: 'Number of Tickets', value: "" },
                     ]}
                 />
         </TagCard>

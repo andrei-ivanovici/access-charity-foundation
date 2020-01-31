@@ -9,7 +9,9 @@ import {
     TagCard,
     TagAppHeader,
     TagStats,
-    ITagEditFieldOption
+    ITagEditFieldOption,
+    TagAlert,
+    TagToggle
 } from "@tag/tag-components-react-v2";
 import "./TicketWizard.css";
 import {Config, getAppConfig} from "../../app.config";
@@ -57,21 +59,39 @@ export function TicketWizard({user}: TicketWizardProps) {
     }
     return (
         <div className="wizard">
-            <TagWizard heading='Buy Ticket process' height="400px">
+            <TagWizard heading='Buy Tickets' height="400px" style={{minWidth: "300px", maxWidth:"600px", width:"40%"}}>
                 <TagWizardStep name='step1' heading='Select tickets'>
                     <div className="space"></div>
+                    <TagField 
+                        label='Current Lottery:' 
+                        value={lotteryInfo.name} 
+                        labelStyle={{fontSize: "16px"}}
+                        valueStyle={{fontSize: "16px", "fontWeight": "bold"}}
+                        />
+                    <div className="space2"></div>
+                    <TagField 
+                        label='Ticket price:' 
+                        value={lotteryInfo.price} 
+                        labelStyle={{fontSize: "16px"}}
+                        valueStyle={{fontSize: "16px", "fontWeight": "bold"}}
+                        />
+                        <div className="space"></div>
                     <TagEditField label='How many tickets do you want to buy?'
                                   editor='number'
                                   name='ticketsNumber'
+                                  labelStyle={{fontSize: "16px"}}
                                   value={ticketNumber}
                                   onValueChange={(e) => setTicketNumber(e.detail.value)}/>
                     <div className="space"></div>
-                    <TagField label='Total amount:' value={ticketNumber * lotteryInfo.price}/>
+                    <TagField label='Final price:' 
+                            value={ticketNumber * lotteryInfo.price}
+                            labelStyle={{fontSize: "16px"}}
+                            valueStyle={{fontSize: "16px", "fontWeight": "bold"}}/>
                 </TagWizardStep>
                 <TagWizardStep name='step2' heading='Select charity'>
-                    <div className="space"></div>
+                    <div className="space3"></div>
                     <TagEditField
-                        label='Select your favourite charity'
+                        label='Select your favourite charity:'
                         editor="radio"
                         options={charityList.map(c => {
                             let charity = {} as ITagEditFieldOption;
@@ -112,7 +132,18 @@ export function TicketWizard({user}: TicketWizardProps) {
                 </TagWizardStep>
                 <TagWizardStep name='step4' heading='Complete' finishCaption="Finish"
                                onFinishClick={e => submitOrder(ticketNumber, charityList.find(charity => charity.id == selectedCharity), user, lotteryInfo)}>
-                    <TagField value='Thank you'/>
+                <div className="space3"></div>
+                <TagCard
+                        accent='keppel'
+                        background-image='access'
+                        style={{minWidth: "430px"}}>
+                        <TagAppHeader
+                            icon='Basket'
+                            heading='Thank you'
+                            heading-accent='white'
+                        />
+                    <TagField value={'You bought '+ ticketNumber + " ticket(s) for charity " + charityList.find(charity => charity.id == selectedCharity)?.name+ ". Thank you!"}  valueStyle={{fontSize: "18px", "fontWeight": "bold", padding:"40px 20px 20px 20px", color:"white"}}/>
+                    </TagCard>
                 </TagWizardStep>
             </TagWizard>
         </div>
