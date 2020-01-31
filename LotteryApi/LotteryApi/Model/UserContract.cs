@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LotteryApi.Model
+﻿namespace LotteryApi.Model
 {
-    [Table("User")]
-    public class UserEntity
+    public class UserContract
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -12,6 +8,5 @@ namespace LotteryApi.Model
         public string Address { get; set; }
         public string Avatar { get; set; }
         public string Password { get; set; }
-        public ICollection<PaymentEntity> Payments { get; set; }
     }
 }

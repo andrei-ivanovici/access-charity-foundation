@@ -2,9 +2,11 @@ import axios from "axios";
 import {Config, getAppConfig} from "../app.config";
 
 export interface User {
+    id?: number;
+    address?: string;
+    avatar?: string;
     name: string
     mail: string;
-    avatar?: string;
 }
 
 type  Listener = (u: User) => void
@@ -29,6 +31,18 @@ export class LoginService {
         }
     }
 
+    public async refresh() {
+        const appConfig: Config = getAppConfig();
+        const url = `${appConfig.apiUrl}/authapi/refresh/${this.user!.id}`;
+        const result = await axios.get(url);
+        this.user = result.data;
+        this._listeners.forEach(l => this.user && l(this.user));
+        if (this.user) {
+            sessionStorage.setItem("user", JSON.stringify(this.user));
+        }
+
+    }
+
     public async register(newUser: User) {
         const appConfig: Config = getAppConfig();
         const url = `${appConfig.apiUrl}/authapi/register`;
@@ -38,7 +52,8 @@ export class LoginService {
 
     public tryRestorePayload() {
         const payload = sessionStorage.getItem("user");
-        return payload && JSON.parse(payload);
+        this.user= payload && JSON.parse(payload);
+        return this.user;
     }
 
     public observeUserChange(observer: Listener) {
