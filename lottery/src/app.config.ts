@@ -4,7 +4,7 @@ export interface Config {
 
 const env = {
     prod: {
-        apiUrl: "https://localhost:5001"
+        apiUrl: "https://lottery-bk.azurewebsites.net"
     },
     dev: {
         apiUrl: "https://localhost:5001"
@@ -12,5 +12,8 @@ const env = {
 };
 
 export function getAppConfig(): Config {
-    return env.dev;
+    if (process.env.NODE_ENV === "development") {
+        return env.dev;
+    }
+    return env.prod;
 }
