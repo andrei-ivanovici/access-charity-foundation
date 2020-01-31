@@ -17,10 +17,22 @@ namespace LotteryApi.Data
 
 
         public DbSet<CharityEntity> CharityEntity { get; set; }
+        public DbSet<LotteryEventEntity> LotteryEntity { get; set; }
 
         public DbSet<TicketEntity> TicketEntity{ get; set; }
+        public DbSet<CharityLotteryEntity> CharityLottery{ get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CharityLotteryEntity>().HasKey(sc => new { sc.CharityId, sc.LotteryId });
+            modelBuilder.Entity<CharityLotteryEntity>()
+                         .HasOne<LotteryEventEntity>(sc => sc.Lottery)
+                         .WithMany(lotteryEvent => lotteryEvent.LoteryCharity)
+                         .HasForeignKey(charityLottery => charityLottery.LotteryId);
 
-
-
+            modelBuilder.Entity<CharityLotteryEntity>()
+                         .HasOne<CharityEntity>(sc => sc.Charity)
+                         .WithMany(charity => charity.CharityLottery)
+                         .HasForeignKey(charityLottery => charityLottery.CharityId);
+        }
     }
 }

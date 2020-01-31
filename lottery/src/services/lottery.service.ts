@@ -16,10 +16,10 @@ export interface ILotteryInfo {
 export class LotteryService {
     public async submitLottery(lottery: ILotteryInfo): Promise<void> {
         const appConfig: Config = getAppConfig();
-        const url = `${appConfig.apiUrl}/lotteryApi`;
+        const url = `${appConfig.apiUrl}/LotteryEventApi`;
 
         return axios.post(url, {
-            lottery
+            ...lottery
         });
 
     }
