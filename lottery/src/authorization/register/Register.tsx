@@ -6,7 +6,7 @@ import {navigationService} from "../../services/navigation.service";
 
 const {
     root: rootClass,
-    form: formClass
+    form: formClass,
 } = style;
 
 type RegisteredUser = User & {

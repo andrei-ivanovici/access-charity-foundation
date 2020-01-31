@@ -3,8 +3,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  padding: 50px;
+
+  .form > * {
+    display: block;
+    margin-top: 10px;
+    width: 300px;
+  }
+
+  tag-button {
+    margin-top: 10px;
+  }
 }
 
-.form {
-  border: 1px solid black;
-}

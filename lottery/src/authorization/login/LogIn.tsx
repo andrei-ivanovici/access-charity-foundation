@@ -4,7 +4,7 @@ import {TagButton, TagEditField} from "@tag/tag-components-react-v2";
 import {loginService} from "../../services/login.service";
 import {navigationService} from "../../services/navigation.service";
 
-const {form: formClass, root: rootClass} = style;
+const {form: formClass, root: rootClass, buttons: buttonsClass } = style;
 
 
 interface Credentials {
@@ -37,8 +37,11 @@ export function LogIn() {
                           label='password'
             />
 
-            <TagButton onClick={() => doLogin(credentials)} text={"Login"}/>
-            <TagButton onClick={() => register()} text={"Register"}/>
+            <div className={buttonsClass}>
+                <TagButton onClick={() => doLogin(credentials)} text={"Login"}/>
+                <TagButton onClick={() => register()} text={"Register"}/>
+            </div>
+            
         </div>
     </div>
 }

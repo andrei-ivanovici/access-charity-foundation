@@ -1,10 +1,25 @@
 .root {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-.form {
+    padding: 50px;
 
+    .form > * {
+        display: block;
+        margin-top: 10px;
+        width: 300px;
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+
+        justify-content: space-around;
+
+        tag-button {
+            display: flex;
+        }
+    }
 }

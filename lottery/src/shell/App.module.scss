@@ -23,6 +23,8 @@
 .content {
   position: relative;
   grid-area: content;
+
+  overflow: auto;
 }
 
 
