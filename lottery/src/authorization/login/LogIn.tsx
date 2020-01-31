@@ -17,8 +17,8 @@ export function LogIn() {
     const [credentials, setCredentials] = useState<Credentials>({username: "", password: ""});
     const {password, username} = credentials;
     return <div className={rootClass}>
-        Login
         <div className={formClass}>
+            <div>Login</div>
             <TagEditField
                 label='email'
                 value={username}

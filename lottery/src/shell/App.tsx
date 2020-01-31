@@ -6,6 +6,7 @@ import {User} from "../services/login.service";
 import {UserRoutes} from "./UserRoutes";
 import {AdminRoutes} from "./AdminRoutes";
 import {TopNav} from "../components/top-nav/TopNav";
+import "./App.global.css";
 
 const {root, nav, header, content, headerContent} = style;
 

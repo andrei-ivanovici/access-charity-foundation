@@ -1,8 +1,13 @@
 import React from "react";
-import { TagCard, TagAppHeader, TagStats } from "@tag/tag-components-react-v2";
+import { TagCard, TagAppHeader, TagStats, TagButton } from "@tag/tag-components-react-v2";
 import style from "./AdminDashboard.module.scss";
+import { navigationService } from "../services/navigation.service";
 
-const { main: mainClass, cardContent: cardContentClass, space: spaceClass } = style;
+const { main: mainClass, cardContent: cardContentClass } = style;
+
+function newLottery() {
+    navigationService.newLottery();
+}
 
 export function AdminDashboard() {
     return (
@@ -67,7 +72,12 @@ export function AdminDashboard() {
                     heading='Create new lottery'
                     heading-accent='plum'
                 />
-                <div className={cardContentClass}>Create Lottery</div>
+                <div className={cardContentClass}>
+                    <TagButton
+                        text="New Lottery"
+                        onClick={newLottery}>
+                    </TagButton>
+                </div>
             </TagCard>
         </div>
     )

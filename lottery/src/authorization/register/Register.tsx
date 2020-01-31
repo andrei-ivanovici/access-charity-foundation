@@ -25,8 +25,8 @@ export function Register() {
     });
     const {password, name, mail, confirmPassword, role} = newUser;
     return <div className={rootClass}>
-        Register
         <div className={formClass}>
+            <div>Register</div>
             <TagEditField
                 label='name'
                 value={name}
