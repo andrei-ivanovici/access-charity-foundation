@@ -5,6 +5,7 @@ using LotteryApi.Model;
 using LotteryApi.Model.Draw;
 using LotteryApi.Model.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace LotteryApi.Controllers
@@ -52,6 +53,41 @@ namespace LotteryApi.Controllers
             };
         }
 
+
+        [HttpGet]
+        [Route("lastDraw")]
+        public DrawResult GetLastDraw()
+        {
+            var lastDraw = _ctx.Draws.OrderByDescending(d => d.Id).First();
+            var ticket = _ctx.TicketEntity
+                .Include(t => t.User)
+                .Include(t => t.Lottery)
+                .ThenInclude(l => l.Tickets)
+                .First(t => t.Id == lastDraw.TicketId);
+
+            var charity = _ctx.CharityEntity.First(c => c.Id == ticket.CharityId);
+            return new DrawResult()
+            {
+                Charity = new DrawCharity()
+                {
+                    Id = charity.Id,
+                    Name = charity.Name
+                },
+                Ticket = new DrawTicket()
+                {
+                    Id = ticket.Id,
+                    Name = ticket.Name
+                },
+                User = new DrawnUser()
+                {
+                    Id = ticket.User.Id,
+                    Name = ticket.User.Name
+                },
+                TotalParticipants = ticket.Lottery.Tickets.Count
+            };
+        }
+
+
         [HttpGet]
         [Route("draw")]
         public DrawResult DrawWinner()
@@ -82,9 +118,9 @@ namespace LotteryApi.Controllers
             var result = new DrawResult
             {
                 TotalParticipants = pool.Count,
-                TicketId = new DrawTicket()
+                Ticket = new DrawTicket()
                 {
-                    TicketId = winingTicket.Id,
+                    Id = winingTicket.Id,
                     Name = winingTicket.Name
                 },
                 User = new DrawnUser()

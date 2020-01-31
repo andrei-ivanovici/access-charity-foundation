@@ -2,6 +2,8 @@ import React from "react";
 import {TagCard, TagAppHeader, TagStats} from "@tag/tag-components-react-v2";
 import "./AdminDashboard.css";
 import {navigationService} from "../services/navigation.service";
+import {DrawTile} from "./draw/DrawTile";
+import {LotteryInfo} from "./lottery-info/LotteryInfo";
 
 function newLottery() {
     navigationService.newLottery();
@@ -23,40 +25,11 @@ export function AdminDashboard() {
                 <div className="spacer">Current charity</div>
             </TagCard>
             <div className="space"></div>
-            <TagCard
-                accent='porcelain'
-                background-image='access'
-                style={{minWidth: "400px", height: "400px", width: "400px"}}>
-                <TagAppHeader
-                    icon='Trophy'
-                    iconAccent="plum"
-                    heading='Charity lottery information'
-                    heading-accent='plum'
-                />
-                <TagStats
-                    accent='plum'
-                    heading='Charity Name'
-                    labelField='label'
-                    valueField='value'
-                    data={[
-                        {label: 'Tickets sold', value: '100'},
-                        {label: 'Amount raised', value: '100000'},
-                    ]}
-                />
-            </TagCard>
+            <LotteryInfo/>
             <div className="space"></div>
 
-            <TagCard
-                accent='porcelain'
-                background-image='access'
-                style={{minWidth: "400px", minHeight: "400px", height: "400px", width: "400px"}}>
-                <TagAppHeader
-                    icon='Trophy'
-                    iconAccent="plum"
-                    heading='Draw'
-                    heading-accent='plum'
-                />
-            </TagCard>
+            <DrawTile/>
+
             <div className="space"></div>
             <TagCard
                 accent='porcelain'
