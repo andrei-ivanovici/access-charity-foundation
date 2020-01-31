@@ -6,7 +6,7 @@ import {LogIn} from "../authorization/login/LogIn";
 import {appHistory} from "../services/navigation.service";
 import {Register} from "../authorization/register/Register";
 import {loginService, User} from "../services/login.service";
-import TicketWizard from "../ticket/TicketWizard/TicketWizard";
+import { TicketWizard } from "../ticket/TicketWizard/TicketWizard";
 
 
 function useAuthorization() {
