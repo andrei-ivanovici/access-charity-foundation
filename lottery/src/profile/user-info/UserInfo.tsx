@@ -8,6 +8,7 @@ const {root, avatar, footer, formField} = style;
 
 export interface UserDetailsProps {
     user: User;
+    onSaveUserInfo: (user: User) => void
 }
 
 export function UserInfo({user}: UserDetailsProps) {

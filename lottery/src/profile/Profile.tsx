@@ -9,6 +9,7 @@ const {root} = style;
 
 export interface ProfileProps {
     user: User;
+    onSaveInfo: (user: User) => void;
 }
 
 
@@ -43,12 +44,12 @@ function useData(user: User) {
     };
 }
 
-export function Profile({user}: ProfileProps) {
+export function Profile({user, onSaveInfo}: ProfileProps) {
     const {loading, profile: {user: userInfo, payments: paymentSources}, saveNewPayment, removePayment} = useData(user);
     return <div className={root}>
         {(userInfo && paymentSources) ? (
                 <>
-                    <UserInfo user={userInfo}/>
+                    <UserInfo user={userInfo} onSaveUserInfo={onSaveInfo}/>
                     <PaymentInfo payments={paymentSources}
                                  onNewPayment={saveNewPayment}
                                  onRemovePayment={removePayment}/>

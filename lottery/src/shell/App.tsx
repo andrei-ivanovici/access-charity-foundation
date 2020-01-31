@@ -61,7 +61,8 @@ export function App({user}: AppProps) {
                     <Dashboard/>
                 </Route>
                 <Route path={"/profile"}>
-                    <Profile user={user}/>
+                    <Profile user={user} onSaveInfo={() => {
+                    }}/>
                 </Route>
                 <Route path={"/"}>
                     <Redirect to={"/profile"}/>
