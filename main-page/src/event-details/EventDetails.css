@@ -1,0 +1,38 @@
+.event-detail{
+    text-align: center;
+    background-color: #ffff;
+    margin: 100px 200px 5px 200px;
+    padding: 10px;
+}
+
+.title{
+    font-size: 50px;
+    margin: 10px;
+    color: #e5173f;
+}
+
+.image-top{
+    display: block;
+    width: 400px;
+    margin: 40px auto 40px;
+}
+
+.main-text{
+    font-size: 20px;
+    margin: 10px;
+ }
+
+.play-button{
+    margin : 20px;
+}
+
+.how-to-title{
+    font-size: 50px;
+    margin: 40px;
+    color: #e5173f;
+}
+
+.how-to-text{
+    font-size: 20px;
+    margin : 10px;
+}

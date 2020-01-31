@@ -1,0 +1,10 @@
+.footer{
+    background-color: #282c34;
+    width: 100%;
+    bottom:0;
+    color:white;
+    margin: 0;
+}
+.footer > ul{
+    list-style-type: none;
+}
