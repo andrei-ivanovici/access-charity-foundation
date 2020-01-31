@@ -14,6 +14,7 @@ namespace LotteryApi.Controllers
     {
         public int TicketNumber { get; set; }
         public int CharityId { get; set; }
+        public int UserId { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -28,6 +29,7 @@ namespace LotteryApi.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TicketEntity>>> GetTicketEntity()
         {
@@ -37,26 +39,22 @@ namespace LotteryApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TicketEntity[]>> SubmitOrder(Order order)
         {
-            List<TicketEntity> newTickets = new List<TicketEntity>(); 
+            List<TicketEntity> newTickets = new List<TicketEntity>();
+
+            var user = _context.Users
+                .First(u => u.Id == order.UserId);
             for (int i = 1; i <= order.TicketNumber; i++)
             {
                 TicketEntity ticket = new TicketEntity();
                 ticket.Name = i.ToString();
                 ticket.Price = i;
                 ticket.CharityId = order.CharityId;
-
-                //var charityEntity = await _context.CharityEntity.FindAsync(order.CharityId);
-                //charityEntity.Tickets.Add(ticket);
-                //_context.Entry(charityEntity).State = EntityState.Modified;
-
-                newTickets.Add(ticket);
+                user.Tickets.Add(ticket);
             }
 
-            _context.TicketEntity.AddRange(newTickets);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTicketEntity", newTickets.ToArray());
-
         }
     }
 }

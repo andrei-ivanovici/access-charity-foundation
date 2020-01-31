@@ -23,6 +23,12 @@ namespace LotteryApi.Data
                 .WithMany(g => g.Payments)
                 .HasForeignKey(s => s.UserId);
 
+            
+            modelBuilder.Entity<TicketEntity>()
+                .HasOne<UserEntity>(s => s.User)
+                .WithMany(g => g.Tickets)
+                .HasForeignKey(s => s.UserId);
+            
             modelBuilder.Entity<CharityLotteryEntity>().HasKey(sc => new { sc.CharityId, sc.LotteryId });
             modelBuilder.Entity<CharityLotteryEntity>()
                          .HasOne<LotteryEventEntity>(sc => sc.Lottery)
