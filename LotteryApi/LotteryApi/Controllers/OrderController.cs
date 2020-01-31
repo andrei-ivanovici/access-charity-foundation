@@ -15,6 +15,7 @@ namespace LotteryApi.Controllers
         public int TicketNumber { get; set; }
         public int CharityId { get; set; }
         public int UserId { get; set; }
+        public int LotteryId { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -43,13 +44,16 @@ namespace LotteryApi.Controllers
 
             var user = _context.Users
                 .First(u => u.Id == order.UserId);
+
+            var lottery = _context.LotteryEntity.First(l => l.Id == order.LotteryId);
+
             for (int i = 1; i <= order.TicketNumber; i++)
             {
                 TicketEntity ticket = new TicketEntity();
                 ticket.Name = i.ToString();
-                ticket.Price = i;
                 ticket.CharityId = order.CharityId;
                 user.Tickets.Add(ticket);
+                ticket.Lottery = lottery;
             }
 
             await _context.SaveChangesAsync();

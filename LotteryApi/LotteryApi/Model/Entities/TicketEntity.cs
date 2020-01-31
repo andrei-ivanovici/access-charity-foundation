@@ -11,11 +11,12 @@ namespace LotteryApi.Model.Entities
     public class TicketEntity
     {
         public int Id { get; set; }
-        public int Price { get; set; }
         public string Name { get; set; }
         public int UserId { get; set; }
 
+        public int LotteryId { get; set; }
         public int CharityId { get; set; }
         public UserEntity User { get; set; }
+        public LotteryEventEntity Lottery { get; set; }
     }
 }

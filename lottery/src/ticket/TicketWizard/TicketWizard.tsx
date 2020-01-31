@@ -16,6 +16,20 @@ import {Config, getAppConfig} from "../../app.config";
 import axios from "axios";
 import {User} from "../../services/login.service";
 import {navigationService} from "../../services/navigation.service";
+import {renderToNodeStream} from "react-dom/server";
+
+interface CharityInfo {
+    id: number;
+    name: string;
+};
+
+interface LotteryInfo {
+    id: number;
+    name: string;
+    charities: CharityInfo[];
+    price: number;
+
+}
 
 export interface TicketWizardProps {
     user: User;
@@ -23,27 +37,25 @@ export interface TicketWizardProps {
 
 export function TicketWizard({user}: TicketWizardProps) {
     const [ticketNumber, setTicketNumber] = useState(0);
-    const [charityList, setCharityList] = useState([] as any[]);
+    const [charityList, setCharityList] = useState<CharityInfo[]>([] as any[]);
     const [selectedCharity, setSelectedCharity] = useState();
+    const [lotteryInfo, setLotteryInfo] = useState<LotteryInfo>();
     const appConfig: Config = getAppConfig();
-    const url = `${appConfig.apiUrl}/api/CharityEntities`;
+    const url = `${appConfig.apiUrl}/LotteryEventApi/latest`;
 
     useEffect(() => {
         (async () => {
             const result = await fetch(url);
-            const charities = JSON.parse(await result.text()) as any[];
-            const charityOptions = charities.map(c => {
-                let charity = {} as ITagEditFieldOption;
-                charity.label = c.name;
-                charity.value = c.id;
-
-                return charity
-            });
-            setCharityList(charities)
+            const lotteryInfo = JSON.parse(await result.text()) as LotteryInfo;
+            setLotteryInfo(lotteryInfo);
+            setCharityList(lotteryInfo.charities)
         })()
 
 
     }, []);
+    if (!lotteryInfo) {
+        return null;
+    }
     return (
         <div className="wizard">
             <TagWizard heading='Buy Ticket process' height="400px">
@@ -55,7 +67,7 @@ export function TicketWizard({user}: TicketWizardProps) {
                                   value={ticketNumber}
                                   onValueChange={(e) => setTicketNumber(e.detail.value)}/>
                     <div className="space"></div>
-                    <TagField label='Total amount:' value={ticketNumber * 10}/>
+                    <TagField label='Total amount:' value={ticketNumber * lotteryInfo.price}/>
                 </TagWizardStep>
                 <TagWizardStep name='step2' heading='Select charity'>
                     <div className="space"></div>
@@ -100,7 +112,7 @@ export function TicketWizard({user}: TicketWizardProps) {
                     </TagCard>
                 </TagWizardStep>
                 <TagWizardStep name='step4' heading='Complete' finishCaption="Finish"
-                               onFinishClick={e => submitOrder(ticketNumber, charityList.find(charity => charity.id == selectedCharity), user)}>
+                               onFinishClick={e => submitOrder(ticketNumber, charityList.find(charity => charity.id == selectedCharity), user, lotteryInfo)}>
                     <TagField value='Thank you'/>
                 </TagWizardStep>
             </TagWizard>
@@ -108,17 +120,18 @@ export function TicketWizard({user}: TicketWizardProps) {
     )
 }
 
-async function submitOrder(ticketNumber: any, charity: any, user: User) {
+async function submitOrder(ticketNumber: any, charity: any, user: User, lottery: LotteryInfo) {
     const appConfig: Config = getAppConfig();
     const url = `${appConfig.apiUrl}/api/order`;
 
     const response = await axios.post(url, {
+        lotteryId: lottery.id,
         ticketNumber: Number(ticketNumber),
         charityId: charity.id,
         userId: user.id
     });
 
-    console.log(response)
+    console.log(response);
     navigationService.go('/user/dashboard')
 
 }

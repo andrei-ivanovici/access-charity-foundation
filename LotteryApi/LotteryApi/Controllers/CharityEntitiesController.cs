@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LotteryApi.Data;
+using LotteryApi.Model;
 using LotteryApi.Model.Entities;
 
 namespace LotteryApi.Controllers
@@ -21,6 +22,8 @@ namespace LotteryApi.Controllers
             _context = context;
         }
 
+
+       
         // GET: api/CharityEntities
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CharityEntity>>> GetCharityEntity()

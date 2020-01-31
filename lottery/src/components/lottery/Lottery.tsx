@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { TagEditField, TagCombobox, TagList, TagButton, TagDatePicker } from '@tag/tag-components-react-v2';
+import React, {useState, useEffect} from 'react';
+import {TagEditField, TagCombobox, TagList, TagButton, TagDatePicker} from '@tag/tag-components-react-v2';
 
 import style from "./Lottery.module.scss";
-import { ICharity, lotteryService } from '../../services/lottery.service';
+import {ICharity, lotteryService} from '../../services/lottery.service';
+import {navigationService} from "../../services/navigation.service";
 
-const { lottery: lotteryClass } = style;
+const {lottery: lotteryClass} = style;
 
 interface ILotteryState {
     selectedCharityIds: string[];
@@ -25,7 +26,7 @@ export function Lottery() {
         drawDate: undefined as any,
         charities: []
     });
-    const { name, price, selectedCharityIds, drawDate, charities } = lotteryState;
+    const {name, price, selectedCharityIds, drawDate, charities} = lotteryState;
 
     const availableCharities = charities.filter(c => !selectedCharityIds.includes(c.id));
     const selectedCharities = charities.filter(c => selectedCharityIds.includes(c.id));
@@ -65,11 +66,11 @@ export function Lottery() {
                 placeholder="Select draw date"
                 onValueChange={d => {
                     drawDate !== d.detail.value &&
-                        setLotteryState({
-                            ...lotteryState,
-                            drawDate: d.detail.value
-                        })
-                }} />
+                    setLotteryState({
+                        ...lotteryState,
+                        drawDate: d.detail.value
+                    })
+                }}/>
             <TagCombobox
                 textField='name'
                 valueField='id'
@@ -95,22 +96,23 @@ export function Lottery() {
                                 ...lotteryState,
                                 selectedCharityIds: selectedCharityIds.filter(sci => sci !== event.detail.item.id)
                             })
-                        }} /> :
+                        }}/> :
                     null
             }
             {
                 name && price && selectedCharityIds.length > 0 ?
                     <TagButton
                         text='Submit'
-                        onClick={() => {
+                        onClick={async () => {
                             console.log(name, price, drawDate, charities.filter(c => selectedCharityIds.includes(c.id)))
-                            lotteryService.submitLottery({
+                            await lotteryService.submitLottery({
                                 name,
                                 price,
                                 drawDate,
                                 charities: charities.filter(c => selectedCharityIds.includes(c.id))
                             })
-                        }} /> :
+                            navigationService.navigateToAdminDashboard()
+                        }}/> :
                     null
             }
         </div>
