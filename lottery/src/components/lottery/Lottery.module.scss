@@ -4,5 +4,10 @@
     flex-direction: column;
     justify-content: center;
 
-    padding: 100px;
+    padding: 50px;
+
+    >* {
+        margin-top: 10px;
+        width: 300px;
+    }
 }
