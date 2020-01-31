@@ -1,24 +1,36 @@
-import React, {Component, useEffect, useMemo, useState} from "react";
-import {ITagEditFieldOption, TagAppHeader, TagCard, TagStats} from "@tag/tag-components-react-v2";
-import "./Dashboard.css"
+import React, {useEffect, useState} from "react";
+import {TagAppHeader, TagCard, TagStats} from "@tag/tag-components-react-v2";
+import "./UserTickets.css"
 import {Config, getAppConfig} from "../../app.config";
+
+interface CharityInfo {
+    id: number;
+    name: string;
+}
 
 interface MyTicket {
     id: number;
     name:string;
     price:number;
     charityId:number;
+    lotteryId:number;
+    charities: CharityInfo[];
 }
 export const UserTickets = () => {
 
-    const [tickets, setTickets] = useState([] as MyTicket[]);
-    const [myTicket, setMyTicket] = useState({} as MyTicket);
+    const [tickets, setTickets] = useState<MyTicket>();
+    const [charityList, setCharityList] = useState<CharityInfo[]>([] as any[]);
+    // const [myTicket, setMyTicket] = useState({} as MyTicket);
     const appConfig: Config = getAppConfig();
     const url = `${appConfig.apiUrl}/api/Order`;
 
     useEffect(()=> {
         (async () => {
             const result = await fetch(url);
+            const tickets = JSON.parse(await result.text())as MyTicket;
+             console.log(tickets);
+            setTickets(tickets);
+            setCharityList(tickets.charities);
             //const orders = JSON.parse(await result.text()) as any[];
             // setTickets(orders);
             // const ticket:MyTicket=orders.slice(-1).pop();
@@ -29,17 +41,11 @@ export const UserTickets = () => {
 
 // console.log(myTicket);
     return(
-        <div>
-
         <TagCard className="tickets"
                  accent='shiraz'
-                 background-image="./saveTheChildren.jpg"
-                 style={{minWidth: "430px"}}>
-            <div >
-                <img className="children-image" src="./saveTheChildren.jpg" alt="children"/>;
-            </div>
+                 style={{minWidth: "430px", marginTop: "400px"}}>
                 <TagAppHeader
-                    icon='Numbered'
+                    icon='Ticket'
                     heading='My Tickets'
                     heading-accent='white'
                     menuItems={[
@@ -53,15 +59,14 @@ export const UserTickets = () => {
                 <TagStats
                     accent='white'
                     heading='Save The Children'
-                    subHeading= {myTicket.name}
+                    subHeading= {tickets?.name}
                     labelField='label'
                     valueField='value'
                     data={[
-                        { label: 'Number of the Ticket', value: myTicket.id },
-                        { label: 'Number of Tickets', value: tickets.length },
+                        { label: 'Number of the Ticket', value: tickets?.name },
+                        { label: 'Number of Tickets', value: tickets?.charities },
                     ]}
                 />
         </TagCard>
-    </div>
     );
-}
+};
